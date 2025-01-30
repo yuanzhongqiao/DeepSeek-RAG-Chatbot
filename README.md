@@ -17,10 +17,15 @@ This chatbot enables fast, accurate retrieval of information from PDFs, DOCX, an
 1️⃣ Git Clone, Create Python env, activate it and Install Dependencies
 
 git clone https://github.com/SaiAkhil066/DeepSeek-RAG-Chatbot.git
+
 cd DeepSeek-RAG-Chatbot
+
 python -m venv venv
+
 venv/scripts/activate
+
 pip install -r requirements.txt
+
 
 2️⃣ Download ollama from its OFFICIAL WEBSITE, Pull the DeepSeek Model and NOMIC Model
 https://ollama.com/
