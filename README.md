@@ -1,4 +1,4 @@
-🚀 DeepSeek RAG Chatbot (100% Free and Local PC Installation)
+🚀 DeepSeek RAG Chatbot (100% Free, Private (No Internet) and Local PC Installation )
 
 🔥 DeepSeek + FAISS + GPU = The Ultimate RAG Stack!
 
