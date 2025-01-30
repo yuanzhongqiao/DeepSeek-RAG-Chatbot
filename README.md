@@ -28,9 +28,13 @@ pip install -r requirements.txt
 
 
 2️⃣ Download ollama from its OFFICIAL WEBSITE, Pull the DeepSeek Model and NOMIC Model
+
 https://ollama.com/
+
 ollama pull deepseek-r1:7b
+
 ollama pull nomic-embed-text
+
 
 3️⃣ Run the Chatbot
 
