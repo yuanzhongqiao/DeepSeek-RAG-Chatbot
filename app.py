@@ -104,6 +104,7 @@ if "documents_loaded" not in st.session_state:
 def process_documents(uploaded_files):
     if st.session_state.documents_loaded:  # ✅ Prevents reprocessing if already done
         return
+
     st.session_state.processing = True
     documents = []
     
@@ -111,7 +112,7 @@ def process_documents(uploaded_files):
         file_path = os.path.join("temp", file.name)
         with open(file_path, "wb") as f:
             f.write(file.getbuffer())
-        
+
         if file.name.endswith(".pdf"):
             loader = PyPDFLoader(file_path)
         elif file.name.endswith(".docx"):
@@ -124,19 +125,26 @@ def process_documents(uploaded_files):
         documents.extend(loader.load())
         os.remove(file_path)  # Clean up temp file
     
+    # ✅ **Check if vector store is already created**
+    if st.session_state.vector_store:
+        st.success("✅ Documents are already processed, skipping embedding step.")
+        return len(documents)
+
     # 🔹 **Reduce chunk size for faster retrieval**
-    text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=100)  # Lowered for speed
+    text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=100)  
     texts = text_splitter.split_documents(documents)
     
     # 🔹 **GPU-accelerated embeddings**
     embeddings = OllamaEmbeddings(model=EMBEDDINGS_MODEL)
-    # ✅ Use FAISS (GPU-accelerated vector search)
+
+    # ✅ Use FAISS (GPU-accelerated vector search) and store it persistently
     st.session_state.vector_store = FAISS.from_documents(texts, embeddings)
-    
-    # ✅ Mark documents as processed (Prevents Reloading)
+
+    # ✅ Mark documents as processed
     st.session_state.documents_loaded = True
     st.session_state.processing = False
     return len(texts)
+
 
 # 📁 **Sidebar: Document upload & settings**
 with st.sidebar:
