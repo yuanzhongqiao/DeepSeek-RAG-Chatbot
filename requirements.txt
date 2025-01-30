@@ -1,0 +1,12 @@
+streamlit
+requests
+re
+json
+os
+torch
+langchain_community
+torchvision
+torchaudio
+langchain-ollama
+faiss-gpu
+faiss-cpu
