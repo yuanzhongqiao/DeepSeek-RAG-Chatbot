@@ -13,8 +13,9 @@ This chatbot enables **fast, accurate, and explainable retrieval of information*
 ✅ **Neural Reranking:** Uses **Cross-Encoder (`ms-marco-MiniLM-L-6-v2`)** to **rank retrieved documents** based on relevance.  
 ✅ **Query Expansion (HyDE):** Expands queries using **Hypothetical Document Embeddings** to **retrieve better matches**.  
 ✅ **Document Source Tracking:** Displays **which PDF/DOCX file** the retrieved answer comes from.  
-✅ **Clickable PDF Links:** Users can **open the source document** to verify the response.  
 ✅ **Faster Processing:** Optimized **document chunking** and **GPU acceleration** for FAISS & Cross-Encoder.  
+
+**In the Next Update** --> **Clickable PDF Links:** Users can **open the source document** to verify the response.  
 
 ---
 
@@ -49,8 +50,9 @@ streamlit run app.py
 2️⃣ **Hybrid Retrieval** (BM25 + FAISS) fetches the most relevant text 🔍  
 3️⃣ **Neural Reranking** (Cross-Encoder) refines search results for higher accuracy 🏆  
 4️⃣ **Query Expansion (HyDE)** improves recall by generating an expanded query 🔄  
-5️⃣ **DeepSeek-7B** generates an answer based on the best-matched document chunks 💬  
-6️⃣ **Sources are displayed** along with the response, with **clickable PDF links** 📑  
+5️⃣ **DeepSeek-7B** generates an answer based on the best-matched document chunks 💬 
+
+6️⃣ **In the Next Update** --> **Sources are displayed** along with the response, with **clickable PDF links** 📑  
 
 ---
 
@@ -60,7 +62,6 @@ streamlit run app.py
 | **Retrieval Method** | FAISS-only | BM25 + FAISS (Hybrid) |
 | **Document Ranking** | No reranking | Cross-Encoder Reranking |
 | **Query Expansion** | Basic queries only | HyDE Query Expansion |
-| **Source Tracking** | No source visibility | Shows **PDF source** & clickable links |
 | **Search Accuracy** | Moderate | **High** (Hybrid + Reranking) |
 
 ---
