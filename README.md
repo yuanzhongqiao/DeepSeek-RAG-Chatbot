@@ -1,7 +1,7 @@
 ### 🚀 **DeepSeek RAG Chatbot 2.0 – Now with Hybrid Retrieval & Reranking!**  
 **(100% Free, Private (No Internet), and Local PC Installation)**  
 
-🔥 **DeepSeek + FAISS + BM25 + GPU = The Ultimate RAG Stack!**  
+🔥 **DeepSeek + NOMIC + FAISS + Neural Reranking + HyDe = The Ultimate RAG Stack!**  
 
 This chatbot enables **fast, accurate, and explainable retrieval of information** from PDFs, DOCX, and TXT files using **DeepSeek-7B**, **BM25**, **FAISS**, and **Neural Reranking (Cross-Encoder)**.  
 
