@@ -1,4 +1,4 @@
-### 🚀 **DeepSeek RAG Chatbot 0.2 – Now with Hybrid Retrieval & Reranking!**  
+### 🚀 **DeepSeek RAG Chatbot 2.0 – Now with Hybrid Retrieval & Reranking!**  
 **(100% Free, Private (No Internet), and Local PC Installation)**  
 
 🔥 **DeepSeek + FAISS + BM25 + GPU = The Ultimate RAG Stack!**  
