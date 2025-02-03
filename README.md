@@ -1,21 +1,16 @@
-### 🚀 **DeepSeek RAG Chatbot 2.0 – Now with Hybrid Retrieval & Reranking!**  
+### 🚀 **DeepSeek RAG Chatbot 3.0 – Now with GraphRAG & Chat History Integration!**  
 **(100% Free, Private (No Internet), and Local PC Installation)**  
 
-🔥 **DeepSeek + NOMIC + FAISS + Neural Reranking + HyDe = The Ultimate RAG Stack!**  
+🔥 **DeepSeek + NOMIC + FAISS + Neural Reranking + HyDE + GraphRAG + Chat Memory = The Ultimate RAG Stack!**  
 
-This chatbot enables **fast, accurate, and explainable retrieval of information** from PDFs, DOCX, and TXT files using **DeepSeek-7B**, **BM25**, **FAISS**, and **Neural Reranking (Cross-Encoder)**.  
+This chatbot enables **fast, accurate, and explainable retrieval of information** from PDFs, DOCX, and TXT files using **DeepSeek-7B**, **BM25**, **FAISS**, **Neural Reranking (Cross-Encoder)**, **GraphRAG**, and **Chat History Integration**.  
 
 ---
 
 ## **🔹 New Features in This Version**
-✅ **Hybrid Retrieval:** Combines **BM25 (keyword search) + FAISS (semantic search)** for **better accuracy**.  
-✅ **Ensemble Retrieval:** Merges **BM25 & FAISS** results with weighting for **higher-quality answers**.  
-✅ **Neural Reranking:** Uses **Cross-Encoder (`ms-marco-MiniLM-L-6-v2`)** to **rank retrieved documents** based on relevance.  
-✅ **Query Expansion (HyDE):** Expands queries using **Hypothetical Document Embeddings** to **retrieve better matches**.  
-✅ **Document Source Tracking:** Displays **which PDF/DOCX file** the retrieved answer comes from.  
-✅ **Faster Processing:** Optimized **document chunking** and **GPU acceleration** for FAISS & Cross-Encoder.  
-
-**In the Next Update** --> **Clickable PDF Links:** Users can **open the source document** to verify the response.  
+✅ **GraphRAG Integration:** Enhances retrieval by constructing a **Knowledge Graph** from your documents, allowing for more **contextual and relational understanding**.  
+✅ **Chat Memory History Awareness:** Maintains context by utilizing **chat history**, enabling more **coherent and contextually relevant responses**.  
+✅ **Improved Error Handling:** Resolved issues related to **chat history clearing** and other minor bugs for a smoother user experience.  
 
 ---
 
@@ -46,39 +41,32 @@ streamlit run app.py
 ---
 
 ## **📌 How It Works**
-1️⃣ Upload PDFs, DOCX, or TXT files 📂  
-2️⃣ **Hybrid Retrieval** (BM25 + FAISS) fetches the most relevant text 🔍  
-3️⃣ **Neural Reranking** (Cross-Encoder) refines search results for higher accuracy 🏆  
-4️⃣ **Query Expansion (HyDE)** improves recall by generating an expanded query 🔄  
-5️⃣ **DeepSeek-7B** generates an answer based on the best-matched document chunks 💬 
-
-6️⃣ **In the Next Update** --> **Sources are displayed** along with the response, with **clickable PDF links** 📑  
+1. **Upload Documents:** Add your PDFs, DOCX, or TXT files.  
+2. **Hybrid Retrieval:** Combines **BM25** and **FAISS** to fetch the most relevant text.  
+3. **GraphRAG Processing:** Builds a **Knowledge Graph** from documents to understand relationships and context.  
+4. **Neural Reranking:** Utilizes **Cross-Encoder** to refine search results for higher accuracy.  
+5. **Query Expansion (HyDE):** Enhances recall by generating expanded queries.  
+6. **Chat Memory History Integration:** Maintains context by referencing previous interactions.  
+7. **DeepSeek-7B Generation:** Produces answers based on the best-matched document chunks.  
 
 ---
 
 ## **🔹 Why This Upgrade?**
-| Feature | Old Version | New Version |
-|---------|------------|------------|
-| **Retrieval Method** | FAISS-only | BM25 + FAISS (Hybrid) |
-| **Document Ranking** | No reranking | Cross-Encoder Reranking |
-| **Query Expansion** | Basic queries only | HyDE Query Expansion |
-| **Search Accuracy** | Moderate | **High** (Hybrid + Reranking) |
+| Feature | Previous Version | New Version |
+|---------|------------------|-------------|
+| **Retrieval Method** | Hybrid (BM25 + FAISS) | Hybrid + **GraphRAG** |
+| **Contextual Understanding** | Limited | **Enhanced with Knowledge Graphs** |
+| **User Interface** | Standard | **Dark Theme with Customizable Sidebar** |
+| **Chat History** | Not Utilized | **Integrated for Contextual Responses** |
+| **Error Handling** | Basic | **Improved with Bug Fixes** |
 
 ---
 
 ## **📌 Common Issues & Fixes**
-💡 **Issue: OpenMP Conflict (OMP: Error #15)**  
-✅ **Fix:** Remove Intel MKL conflicts & reinstall PyTorch  
+💡 **Issue:** Error when clearing chat history.  
+✅ **Fix:** Ensure you're using the latest version of Streamlit, as `st.experimental_rerun()` has been updated.  
 ```bash
-pip uninstall intel-openmp mkl mkl-include
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
-
-💡 **Issue: Slow Document Processing**  
-✅ **Fix:** Reduce chunk size & optimize FAISS retrieval  
-```python
-text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=100)
-st.session_state.vector_store = FAISS.from_documents(texts, embeddings)
+pip install --upgrade streamlit
 ```
 
 ---
@@ -89,4 +77,4 @@ st.session_state.vector_store = FAISS.from_documents(texts, embeddings)
 ---
 
 ### **🔗 Connect & Share Your Thoughts!**
-Got feedback or suggestions? Let’s discuss on **[Reddit](https://www.reddit.com/)**! 🚀💡
+Got feedback or suggestions? Let’s discuss on **[Reddit]([https://www.reddit.com/](https://www.reddit.com/user/akhilpanja/))**! 🚀💡 
