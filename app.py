@@ -1,3 +1,5 @@
+
+import networkx as nx
 import time
 import streamlit as st
 import requests
@@ -14,14 +16,14 @@ from sentence_transformers import CrossEncoder
 # For BM25 and Ensemble Retrievers
 from langchain_community.retrievers import BM25Retriever
 from langchain.retrievers import EnsembleRetriever
-
+from langchain_core.documents import Document  # Ensure correct import
 
 # ✅ Hardware configuration
 device = "cuda" if torch.cuda.is_available() else "cpu"
 torch.set_default_device(device)
 
 # ✅ Streamlit configuration
-st.set_page_config(page_title="DeepSeek RAG Pro", layout="wide")
+st.set_page_config(page_title="DeepGraph RAG-Pro", layout="wide")
 
 # Custom CSS
 st.markdown("""
@@ -56,6 +58,37 @@ if "rag_enabled" not in st.session_state:
     st.session_state.rag_enabled = False
 if "documents_loaded" not in st.session_state:
     st.session_state.documents_loaded = False
+
+def build_knowledge_graph(docs):
+    G = nx.Graph()
+    for doc in docs:
+        entities = re.findall(r'\b[A-Z][a-z]+(?: [A-Z][a-z]+)*\b', doc.page_content)
+        # Ensure meaningful relationships exist
+        if len(entities) > 1:
+            for i in range(len(entities) - 1):
+                G.add_edge(entities[i], entities[i + 1])  # Create edge
+    return G
+
+
+def retrieve_from_graph(query, G, top_k=5):
+    st.write(f"🔎 Searching GraphRAG for: {query}")
+
+    # Convert query into words to match knowledge graph nodes
+    query_words = query.lower().split()
+    matched_nodes = [node for node in G.nodes if any(word in node.lower() for word in query_words)]
+    
+    if matched_nodes:
+        related_nodes = []
+        for node in matched_nodes:
+            related_nodes.extend(list(G.neighbors(node)))  # Get connected nodes
+        
+        st.write(f"🟢 GraphRAG Matched Nodes: {matched_nodes}")
+        st.write(f"🟢 GraphRAG Retrieved Related Nodes: {related_nodes[:top_k]}")
+        return related_nodes[:top_k]
+    
+    st.write(f"❌ No graph results found for: {query}")
+    return []
+
 
 
 
@@ -143,11 +176,21 @@ def process_documents(uploaded_files):
     st.session_state.retrieval_pipeline = {
         "ensemble": ensemble_retriever,
         "reranker": reranker,  # Now using the global reranker variable
-        "texts": text_contents
+        "texts": text_contents,
+        "knowledge_graph": build_knowledge_graph(texts)  # Store Knowledge Graph
     }
 
     st.session_state.documents_loaded = True
     st.session_state.processing = False
+
+    # ✅ Debugging: Print Knowledge Graph Nodes & Edges
+    if "knowledge_graph" in st.session_state.retrieval_pipeline:
+        G = st.session_state.retrieval_pipeline["knowledge_graph"]
+        st.write(f"🔗 Total Nodes: {len(G.nodes)}")
+        st.write(f"🔗 Total Edges: {len(G.edges)}")
+        st.write(f"🔗 Sample Nodes: {list(G.nodes)[:10]}")
+        st.write(f"🔗 Sample Edges: {list(G.edges)[:10]}")
+
 
 
 # 🚀 Query Expansion with HyDE
@@ -164,25 +207,40 @@ def expand_query(query):
         return query
 
 # 🚀 Advanced Retrieval Pipeline
-def retrieve_documents(query):
-    # Query expansion
-    if st.session_state.enable_hyde:
-        expanded_query = expand_query(query)
-    else:
-        expanded_query = query
+def retrieve_documents(query, chat_history=""):
+    expanded_query = expand_query(f"{chat_history}\n{query}") if st.session_state.enable_hyde else query
     
-    # First-stage retrieval
+    # 🔍 Retrieve documents using BM25 + FAISS
     docs = st.session_state.retrieval_pipeline["ensemble"].get_relevant_documents(expanded_query)
+
+    # 🚀 GraphRAG Retrieval
+    if st.session_state.enable_graph_rag:
+        graph_results = retrieve_from_graph(query, st.session_state.retrieval_pipeline["knowledge_graph"])
+        
+        # Debugging output
+        st.write(f"🔍 GraphRAG Retrieved Nodes: {graph_results}")
+
+        # Ensure graph results are correctly formatted
+        graph_docs = []
+        for node in graph_results:
+            graph_docs.append(Document(page_content=node))  # ✅ Fix: Correct Document initialization
+
+        # If graph retrieval is successful, merge it with standard document retrieval
+        if graph_docs:
+            docs = graph_docs + docs  # Merge GraphRAG results with FAISS + BM25 results
     
-    # Reranking
+    # 🚀 Neural Reranking (if enabled)
     if st.session_state.enable_reranking:
-        pairs = [[query, doc.page_content] for doc in docs]
+        pairs = [[query, doc.page_content] for doc in docs]  # ✅ Fix: Use `page_content`
         scores = st.session_state.retrieval_pipeline["reranker"].predict(pairs)
+
+        # Sort documents based on reranking scores
         ranked_docs = [doc for _, doc in sorted(zip(scores, docs), reverse=True)]
     else:
         ranked_docs = docs
-    
-    return ranked_docs[:st.session_state.max_contexts]
+
+    return ranked_docs[:st.session_state.max_contexts]  # Return top results based on max_contexts
+
 
 # 📁 Sidebar
 with st.sidebar:
@@ -204,23 +262,25 @@ with st.sidebar:
     st.session_state.rag_enabled = st.checkbox("Enable RAG", value=True)
     st.session_state.enable_hyde = st.checkbox("Enable HyDE", value=True)
     st.session_state.enable_reranking = st.checkbox("Enable Neural Reranking", value=True)
+    st.session_state.enable_graph_rag = st.checkbox("Enable GraphRAG", value=True)
+    st.session_state.temperature = st.slider("Temperature", 0.0, 1.0, 0.3, 0.05)
     st.session_state.max_contexts = st.slider("Max Contexts", 1, 5, 3)
     
     if st.button("Clear Chat History"):
         st.session_state.messages = []
-        st.experimental_rerun()
+        st.rerun()
 
 # 💬 Chat Interface
-st.title("🤖 DeepSeek RAG Pro")
-st.caption("Advanced RAG System with Hybrid Retrieval and Neural Reranking")
+st.title("🤖 DeepGraph RAG-Pro")
+st.caption("Advanced RAG System with GraphRAG, Hybrid Retrieval, Neural Reranking and Chat History")
 
 # Display messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# User input
 if prompt := st.chat_input("Ask about your documents..."):
+    chat_history = "\n".join([msg["content"] for msg in st.session_state.messages[-5:]])  # Last 5 messages
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -234,7 +294,7 @@ if prompt := st.chat_input("Ask about your documents..."):
         context = ""
         if st.session_state.rag_enabled and st.session_state.retrieval_pipeline:
             try:
-                docs = retrieve_documents(prompt)
+                docs = retrieve_documents(prompt, chat_history)
                 context = "\n".join(
                     f"[Source {i+1}]: {doc.page_content}" 
                     for i, doc in enumerate(docs)
@@ -243,7 +303,11 @@ if prompt := st.chat_input("Ask about your documents..."):
                 st.error(f"Retrieval error: {str(e)}")
         
         # 🚀 Structured Prompt
-        system_prompt = f"""Analyze the question and context through these steps:
+        system_prompt = f"""Use the chat history to maintain context:
+Chat History:
+{chat_history}
+
+Analyze the question and context through these steps:
 1. Identify key entities and relationships
 2. Check for contradictions between sources
 3. Synthesize information from multiple contexts
@@ -263,7 +327,7 @@ Answer:"""
                 "prompt": system_prompt,
                 "stream": True,
                 "options": {
-                    "temperature": 0.3,
+                    "temperature": st.session_state.temperature,  # Use dynamic user-selected value
                     "num_ctx": 4096
                 }
             },
