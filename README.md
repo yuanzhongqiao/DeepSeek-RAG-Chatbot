@@ -20,7 +20,7 @@ This chatbot enables **fast, accurate, and explainable retrieval of information*
 git clone https://github.com/SaiAkhil066/DeepSeek-RAG-Chatbot.git
 cd DeepSeek-RAG-Chatbot
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
