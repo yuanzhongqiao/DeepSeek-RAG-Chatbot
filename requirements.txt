@@ -14,3 +14,4 @@ pydantic
 PyMuPDF
 docx2txt
 tqdm
+pypdf
