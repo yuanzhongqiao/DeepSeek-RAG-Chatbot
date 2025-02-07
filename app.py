@@ -5,9 +5,10 @@ from utils.retriever_pipeline import retrieve_documents
 from utils.doc_handler import process_documents
 from sentence_transformers import CrossEncoder
 import torch
+import os
 
-OLLAMA_API_URL = "http://localhost:11434/api/generate"
-MODEL="deepseek-r1:7b"                                                      #Make sure you have it installed in ollama
+OLLAMA_API_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434/api/generate")  # Get environment variable, if not available use current value in script. "http://localhost:11434/api/generate"
+MODEL= os.getenv("MODEL", "deepseek-r1:7b")                                                      #Make sure you have it installed in ollama
 EMBEDDINGS_MODEL = "nomic-embed-text:latest"
 CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
