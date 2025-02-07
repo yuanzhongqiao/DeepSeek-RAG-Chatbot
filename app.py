@@ -5,10 +5,14 @@ from utils.retriever_pipeline import retrieve_documents
 from utils.doc_handler import process_documents
 from sentence_transformers import CrossEncoder
 import torch
+import os
+from dotenv import load_dotenv, find_dotenv
 
-OLLAMA_BASE_URL = "http://localhost:11434"
+load_dotenv(find_dotenv())  # Loads .env file contents into the application based on key-value pairs defined therein, making them accessible via 'os' module functions like os.getenv().
+
+OLLAMA_BASE_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434")
 OLLAMA_API_URL = f"{OLLAMA_BASE_URL}/api/generate"
-MODEL="deepseek-r1:7b"                                                      #Make sure you have it installed in ollama
+MODEL= os.getenv("MODEL", "deepseek-r1:7b")                                                      #Make sure you have it installed in ollama
 EMBEDDINGS_MODEL = "nomic-embed-text:latest"
 CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
