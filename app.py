@@ -73,6 +73,13 @@ with st.sidebar:                                                                
         st.session_state.messages = []
         st.rerun()
 
+    # 🚀 Footer (Bottom Right in Sidebar) For some Credits :)
+    st.sidebar.markdown("""
+        <div style="position: absolute; top: 20px; right: 10px; font-size: 12px; color: gray;">
+            <b>Developed by:</b> N Sai Akhil &copy; All Rights Reserved 2025
+        </div>
+    """, unsafe_allow_html=True)
+
 # 💬 Chat Interface
 st.title("🤖 DeepGraph RAG-Pro")
 st.caption("Advanced RAG System with GraphRAG, Hybrid Retrieval, Neural Reranking and Chat History")
