@@ -10,7 +10,8 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())  # Loads .env file contents into the application based on key-value pairs defined therein, making them accessible via 'os' module functions like os.getenv().
 
-OLLAMA_API_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434/api/generate")  # Get environment variable, if not available use current value in script. "http://localhost:11434/api/generate"
+OLLAMA_BASE_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434")
+OLLAMA_API_URL = f"{OLLAMA_BASE_URL}/api/generate"
 MODEL= os.getenv("MODEL", "deepseek-r1:7b")                                                      #Make sure you have it installed in ollama
 EMBEDDINGS_MODEL = "nomic-embed-text:latest"
 CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
@@ -60,7 +61,7 @@ with st.sidebar:                                                                
     
     if uploaded_files and not st.session_state.documents_loaded:
         with st.spinner("Processing documents..."):
-            process_documents(uploaded_files,reranker,EMBEDDINGS_MODEL)
+            process_documents(uploaded_files,reranker,EMBEDDINGS_MODEL, OLLAMA_BASE_URL)
             st.success("Documents processed!")
     
     st.markdown("---")
@@ -76,6 +77,13 @@ with st.sidebar:                                                                
     if st.button("Clear Chat History"):
         st.session_state.messages = []
         st.rerun()
+
+    # 🚀 Footer (Bottom Right in Sidebar) For some Credits :)
+    st.sidebar.markdown("""
+        <div style="position: absolute; top: 20px; right: 10px; font-size: 12px; color: gray;">
+            <b>Developed by:</b> N Sai Akhil &copy; All Rights Reserved 2025
+        </div>
+    """, unsafe_allow_html=True)
 
 # 💬 Chat Interface
 st.title("🤖 DeepGraph RAG-Pro")
