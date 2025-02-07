@@ -6,6 +6,9 @@ from utils.doc_handler import process_documents
 from sentence_transformers import CrossEncoder
 import torch
 import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())  # Loads .env file contents into the application based on key-value pairs defined therein, making them accessible via 'os' module functions like os.getenv().
 
 OLLAMA_API_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434/api/generate")  # Get environment variable, if not available use current value in script. "http://localhost:11434/api/generate"
 MODEL= os.getenv("MODEL", "deepseek-r1:7b")                                                      #Make sure you have it installed in ollama
