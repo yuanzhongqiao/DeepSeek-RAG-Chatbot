@@ -6,7 +6,8 @@ from utils.doc_handler import process_documents
 from sentence_transformers import CrossEncoder
 import torch
 
-OLLAMA_API_URL = "http://localhost:11434/api/generate"
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_API_URL = f"{OLLAMA_BASE_URL}/api/generate"
 MODEL="deepseek-r1:7b"                                                      #Make sure you have it installed in ollama
 EMBEDDINGS_MODEL = "nomic-embed-text:latest"
 CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
@@ -56,7 +57,7 @@ with st.sidebar:                                                                
     
     if uploaded_files and not st.session_state.documents_loaded:
         with st.spinner("Processing documents..."):
-            process_documents(uploaded_files,reranker,EMBEDDINGS_MODEL)
+            process_documents(uploaded_files,reranker,EMBEDDINGS_MODEL, OLLAMA_BASE_URL)
             st.success("Documents processed!")
     
     st.markdown("---")

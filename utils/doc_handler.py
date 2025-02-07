@@ -11,7 +11,7 @@ import os
 import re
 
 
-def process_documents(uploaded_files,reranker,embedding_model):
+def process_documents(uploaded_files,reranker,embedding_model, base_url):
     if st.session_state.documents_loaded:
         return
 
@@ -54,7 +54,7 @@ def process_documents(uploaded_files,reranker,embedding_model):
     text_contents = [doc.page_content for doc in texts]
 
     # 🚀 Hybrid Retrieval Setup
-    embeddings = OllamaEmbeddings(model=embedding_model)
+    embeddings = OllamaEmbeddings(model=embedding_model, base_url=base_url)
     
     # Vector store
     vector_store = FAISS.from_documents(texts, embeddings)
