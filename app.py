@@ -7,7 +7,7 @@ from sentence_transformers import CrossEncoder
 import torch
 import os
 from dotenv import load_dotenv, find_dotenv
-
+torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)]  # Fix for torch classes not found error
 load_dotenv(find_dotenv())  # Loads .env file contents into the application based on key-value pairs defined therein, making them accessible via 'os' module functions like os.getenv().
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434")
