@@ -1,4 +1,3 @@
-```markdown
 # 🚀 **DeepSeek RAG Chatbot 3.0 – Now with GraphRAG & Chat History Integration!**
 **(100% Free, Private (No Internet), and Local PC Installation)**  
 
@@ -30,7 +29,7 @@ You can install and run the **DeepSeek RAG Chatbot** in one of two ways:
 ## **1️⃣ Traditional (Python/venv) Installation**
 
 ### **Step A: Clone the Repository & Install Dependencies**
-```bash
+```
 git clone https://github.com/SaiAkhil066/DeepSeek-RAG-Chatbot.git
 cd DeepSeek-RAG-Chatbot
 
@@ -53,19 +52,19 @@ pip install -r requirements.txt
 ### **Step B: Download & Set Up Ollama**
 1. **Download Ollama** → [https://ollama.com/](https://ollama.com/)  
 2. **Pull the required models**:
-   ```bash
+   ```
    ollama pull deepseek-r1:7b
    ollama pull nomic-embed-text
    ```
-   > **Note**: If you want to use a different model, update `MODEL` or `EMBEDDINGS_MODEL` in your environment variables or `.env` file accordingly.
+   *Note: If you want to use a different model, update `MODEL` or `EMBEDDINGS_MODEL` in your environment variables or `.env` file accordingly.*
 
 ### **Step C: Run the Chatbot**
 1. Make sure **Ollama** is running on your system:
-   ```bash
+   ```
    ollama serve
    ```
 2. Launch the Streamlit app:
-   ```bash
+   ```
    streamlit run app.py
    ```
 3. Open your browser at **[http://localhost:8501](http://localhost:8501)** to access the chatbot UI.
@@ -79,7 +78,7 @@ pip install -r requirements.txt
 If **Ollama** is already **installed on your host machine** and listening at `localhost:11434`, do the following:
 
 1. **Build & Run**:
-   ```bash
+   ```
    docker-compose build
    docker-compose up
    ```
@@ -88,8 +87,7 @@ If **Ollama** is already **installed on your host machine** and listening at `lo
 ### **B) Two-Container Approach (Ollama in Docker)**
 
 If you prefer **everything** in Docker:
-
-```yaml
+```
 version: "3.8"
 
 services:
@@ -114,16 +112,14 @@ services:
 ```
 
 Then:
-```bash
+```
 docker-compose build
 docker-compose up
 ```
 Both **Ollama** and the chatbot run in Docker. Access the chatbot at **[http://localhost:8501](http://localhost:8501)**.
 
 
-### **Step A) is far better without any confusion, go with it!!**
-
-
+### **But consider step A) for comfort..**
 ---
 
 # **How the Chatbot Works**
@@ -148,17 +144,6 @@ Both **Ollama** and the chatbot run in Docker. Access the chatbot at **[http://l
 | **Chat History**             | Not Utilized               | **Full Memory Integration**        |
 | **Error Handling**           | Basic                      | **Improved with Bug Fixes**        |
 
----
-
-## **📌 Common Issues & Fixes**
-
-- **`ConnectionError: Failed to connect to Ollama`**  
-  - The container can’t reach your host’s Ollama if you used `localhost`.  
-  - **Fix**: On **macOS/Windows**, use `host.docker.internal:11434`; on **Linux**, consider `network_mode: "host"` or use your host’s IP address.
-
-- **Error When Clearing Chat History**  
-  - May be related to `st.experimental_rerun()` in older Streamlit versions.  
-  - **Fix**: `pip install --upgrade streamlit`.
 
 ---
 
@@ -176,5 +161,4 @@ Got feedback or suggestions? Let’s discuss on [**Reddit**](https://www.reddit.
 ---
 
 **Enjoy building knowledge graphs, maintaining conversation memory, and harnessing powerful local LLM inference—all from your own machine.**  
-_The future of retrieval-augmented AI is here—no internet required!_  
-```
+_The future of retrieval-augmented AI is here—no internet required!_
