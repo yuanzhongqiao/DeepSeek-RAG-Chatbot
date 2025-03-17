@@ -23,19 +23,19 @@
 <div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>git clone https://github.com/SaiAkhil066/DeepSeek-RAG-Chatbot.git
 cd DeepSeek-RAG-Chatbot
 
-# Create a virtual environment
+#Create a virtual environment
 python -m venv venv
 
-# Activate your environment
-# On Windows:
+#Activate your environment
+#On Windows:
 venv\Scripts\activate
-# On macOS/Linux:
+#On macOS/Linux:
 source venv/bin/activate
 
-# Upgrade pip (optional, but recommended)
+#Upgrade pip (optional, but recommended)
 pip install --upgrade pip
 
-# Install project dependencies
+#Install project dependencies
 pip install -r requirements.txt
 </code></pre><div class="zeroclipboard-container">
     
